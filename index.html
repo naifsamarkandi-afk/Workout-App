@@ -28,7 +28,13 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Swolemates" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <!-- black-translucent is what makes the web view reach the physical top of
+         the screen so the page background runs behind the status bar. Under
+         "default" iOS insets the view below an opaque status bar band and
+         env(safe-area-inset-top) reports 0, which is what left a visible seam
+         where the band's colour met the page. The inset is non-zero here, and
+         .page adds it to its top padding so content lands in the same place. -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
