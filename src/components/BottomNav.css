@@ -1,0 +1,54 @@
+/* Frozen in place across every page — never scrolls. */
+.nav {
+  position: fixed;
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  pointer-events: none;
+}
+
+.nav__bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(10px);
+  pointer-events: auto;
+}
+
+.nav__btn {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+  transition:
+    background 0.18s ease,
+    transform 0.18s ease;
+}
+
+.nav__btn svg {
+  width: 25px;
+  height: 25px;
+  fill: var(--ink);
+  transition: fill 0.18s ease;
+}
+
+.nav__btn:active {
+  transform: scale(0.92);
+}
+
+.nav__btn.is-active {
+  background: var(--pill-dark);
+}
+
+.nav__btn.is-active svg {
+  fill: var(--ink-on-dark);
+}

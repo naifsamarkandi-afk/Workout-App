@@ -1,0 +1,229 @@
+.workout {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.workout__header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.workout__day {
+  margin: 0;
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+}
+
+.workout__type {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+
+/* Today's session is already in the book. */
+.workout__logged {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: -4px 0 0;
+  padding: 11px 14px;
+  border-radius: var(--r-md);
+  background: var(--pill-dark);
+  color: var(--ink-on-dark);
+  box-shadow: var(--shadow-md);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.workout__logged-tick {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.workout__logged-tick svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: var(--ink-on-dark);
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Checklist */
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: var(--r-md);
+  background: var(--card-strong);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow-sm);
+  transition: opacity 0.2s ease;
+}
+
+.row.is-locked {
+  /* Slightly faded so it reads as not-yet-pressable. */
+  opacity: 0.45;
+}
+
+/* A finished day reads as a record, not a greyed-out form, so the rows stay
+   legible even though none of them can be pressed. */
+.checklist.is-locked .row.is-locked {
+  opacity: 0.72;
+}
+
+/* A rest day is inactive: the whole screen sits back, and the list below is a
+   preview of what's next rather than anything to act on. */
+.workout.is-rest .stage {
+  opacity: 0.66;
+}
+
+.workout.is-rest .checklist.is-locked .row.is-locked {
+  opacity: 0.5;
+}
+
+.workout.is-rest .workout__logged {
+  background: rgba(16, 16, 16, 0.62);
+}
+
+.row__box {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2.5px solid var(--ink);
+  background: transparent;
+  transition:
+    background 0.18s ease,
+    transform 0.18s ease;
+}
+
+.row__box:disabled {
+  cursor: default;
+}
+
+.row__box svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: var(--ink-on-dark);
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+  transform: scale(0.5);
+  transition:
+    opacity 0.16s ease,
+    transform 0.22s cubic-bezier(0.34, 1.7, 0.64, 1);
+}
+
+.row.is-checked .row__box {
+  background: var(--pill-dark);
+}
+
+.row.is-checked .row__box svg {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.row__box:not(:disabled):active {
+  transform: scale(0.88);
+}
+
+.row__text {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.row__name {
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.row__reps {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+
+.row--cardio .row__name {
+  font-size: 17px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.row__sets {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+}
+
+.row__sets-n {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.row__sets-l {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Complete button */
+.workout__done {
+  align-self: center;
+  margin-top: 4px;
+  padding: 13px 26px;
+  border-radius: var(--r-md);
+  background: var(--card-strong);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow-md);
+  font-size: 17px;
+  font-weight: 700;
+  transition:
+    opacity 0.2s ease,
+    transform 0.15s ease,
+    background 0.2s ease;
+}
+
+.workout__done:disabled {
+  opacity: 0.42;
+  cursor: default;
+  box-shadow: var(--shadow-sm);
+}
+
+.workout__done:not(:disabled) {
+  background: var(--pill-dark);
+  color: var(--ink-on-dark);
+}
+
+.workout__done:not(:disabled):active {
+  transform: scale(0.96);
+}

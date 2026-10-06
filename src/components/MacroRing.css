@@ -1,0 +1,45 @@
+.ring {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 132px;
+  height: 132px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: var(--shadow-md);
+}
+
+.ring svg {
+  display: block;
+}
+
+.ring__track {
+  stroke: rgba(16, 16, 16, 0.06);
+}
+
+.ring__cal {
+  stroke: var(--cal-fill);
+  transition: stroke-dashoffset 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ring__pro {
+  stroke: var(--pro-fill);
+  transition: stroke-dashoffset 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Both goals met for the day. */
+.ring.is-complete {
+  animation: ring-pop 0.5s ease-out;
+}
+
+@keyframes ring-pop {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.07);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

@@ -1,0 +1,61 @@
+.week {
+  display: flex;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.week__pill {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 7px 2px 8px;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.week__label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+}
+
+/* The two heads are framed differently — the yellow one is wider than it is
+   tall, the blue one nearly square — so a fixed box letterboxes them to
+   different sizes. Letting width run to the pill edge and pinning height keeps
+   them reading at the same scale. */
+.week__icon {
+  width: 100%;
+  height: 32px;
+  object-fit: contain;
+}
+
+.week__icon.is-zzz {
+  /* The zzz mark reads better slightly smaller than a head. */
+  max-width: 28px;
+  height: 28px;
+}
+
+/* Completed workout — the only dark state. */
+.week__pill.is-done {
+  background: var(--pill-dark);
+  box-shadow: var(--shadow-md);
+}
+
+.week__pill.is-done .week__label {
+  color: var(--ink-on-dark);
+}
+
+.week__pill.is-today {
+  outline: 2px solid rgba(16, 16, 16, 0.16);
+  outline-offset: 2px;
+}

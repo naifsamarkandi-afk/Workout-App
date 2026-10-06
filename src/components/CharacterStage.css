@@ -1,0 +1,54 @@
+.stage {
+  position: relative;
+  width: 100%;
+  /* Taller than the mockup's 482/262 so the characters read bigger. Must stay
+     narrower than the 16:9 artwork (1.78) — see the note on object-fit below. */
+  aspect-ratio: 482 / 300;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.45) 100%);
+  overflow: hidden;
+}
+
+/* Absolutely positioned rather than sized with a percentage height: the card's
+   height comes from aspect-ratio, which is not a definite height for percentage
+   resolution, so `height: 88%` resolved against the art's own intrinsic size and
+   overflowed the card. Insets give object-fit a definite box to work in. */
+/**
+ * The art is 16:9 but each character only fills 23–55% of that frame, so a
+ * contain fit wasted most of the card on empty pixels. `cover` fills the card
+ * and trims the padded sides instead.
+ *
+ * Safe because the stage is narrower than the artwork: cover then scales to
+ * height and crops horizontally only, ~5% a side. Every character has at least
+ * 22% clear margin left and right, and nothing is ever cropped vertically —
+ * which matters, since one of them sits only 8% off the bottom edge.
+ *
+ * Explicit percentages, not insets: an absolutely positioned <img> is a
+ * replaced element, so width/height:auto would resolve to its intrinsic size
+ * and ignore the inset box.
+ */
+.stage__art {
+  position: absolute;
+  top: 3%;
+  left: 3%;
+  width: 94%;
+  height: 94%;
+  object-fit: cover;
+  user-select: none;
+}
+
+/* Gentle breathing on the homepage. The workout screen deliberately has no CSS
+   motion at all — the session artwork carries its own, and layering a bob on
+   top made it look like it was drifting around the card. */
+.stage__art.is-idle {
+  animation: stage-idle 3.6s ease-in-out infinite;
+}
+
+@keyframes stage-idle {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-4px) scale(1.015);
+  }
+}

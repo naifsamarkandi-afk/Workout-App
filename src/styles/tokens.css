@@ -1,0 +1,52 @@
+/* Design tokens lifted from the Figma mockup.
+   Everything visual should reference these — no raw hex in components. */
+
+:root {
+  /* Typeface. Swap this one line if you want a different rounded sans. */
+  --font: 'Quicksand', ui-rounded, 'SF Pro Rounded', 'Nunito', system-ui, sans-serif;
+
+  /* Page ground: pale cream at the top fading into butter yellow at the bottom. */
+  --bg-top: #fefdf3;
+  --bg-bottom: #f2e99b;
+
+  /* Ink */
+  --ink: #101010;
+  --ink-muted: #a4a49a;
+  --ink-on-dark: #ffffff;
+
+  /* Surfaces */
+  --card: rgba(255, 255, 255, 0.66);
+  --card-strong: rgba(255, 255, 255, 0.86);
+  --card-border: rgba(255, 255, 255, 0.9);
+  --pill-dark: #0e0e0e;
+
+  /* Radii */
+  --r-sm: 12px;
+  --r-md: 16px;
+  --r-lg: 20px;
+  --r-xl: 26px;
+  --r-pill: 999px;
+
+  /* Soft, warm, low-contrast shadows — the mockup's signature. */
+  --shadow-sm: 0 2px 6px rgba(133, 122, 47, 0.1);
+  --shadow-md: 0 4px 14px rgba(133, 122, 47, 0.13), 0 1px 2px rgba(133, 122, 47, 0.06);
+  --shadow-lg: 0 8px 24px rgba(133, 122, 47, 0.16), 0 2px 4px rgba(133, 122, 47, 0.06);
+
+  /* Macro colours */
+  --cal-track: #cfe8c5;
+  --cal-fill: #a7d698;
+  --pro-track: #f3b8b0;
+  --pro-fill: #e9938a;
+
+  /* Accent used for the little bar beside the progress line */
+  --accent: #f3d33e;
+
+  /* Character colours (also used by the placeholder art) */
+  --lower-yellow: #f5cf47;
+  --upper-blue: #4aa8ee;
+
+  /* Layout */
+  --phone-max: 430px;
+  --gutter: 24px;
+  --nav-h: 92px;
+}
