@@ -90,9 +90,10 @@ other pill, rest days included, is light.
 
 ## Swapping the app icon
 
-`public/icons/` holds a placeholder: the theme colour with an "S", drawn as a
-stroked path in `icon.svg` so it needs no font. Replace the PNGs with your own at
-the same filenames and sizes and nothing else needs to change:
+`public/icons/` holds the app icon at every size the PWA needs, all generated
+from one 1024×1024 square source. Replace the PNGs with your own at the same
+filenames and sizes and nothing else needs to change — the manifest and
+`index.html` reference these names, not the artwork:
 
 | File | Size | Used by |
 |---|---|---|
@@ -102,11 +103,16 @@ the same filenames and sizes and nothing else needs to change:
 | `icon-512-maskable.png` | 512×512 | manifest, `purpose: maskable` |
 | `favicon-32.png` | 32×32 | browser tab |
 
-The maskable one is cropped to a circle on Android, so keep its artwork inside
-the middle ~60% — the placeholder's "S" is scaled down for exactly that reason.
-If you change the background colour, update `theme_color` in
-`public/manifest.webmanifest` and the `theme-color` meta in `index.html` to
-match.
+Android crops the maskable one, guaranteeing only the central circle of 80%
+diameter, so that file is the full artwork inset to 80% and padded with the
+artwork's own background colour (`#FFF3AF`) — the faces and eyes stay clear of
+the crop and the padding is invisible. Every other size is full-bleed; iOS
+applies its own rounded-rectangle mask to `apple-touch-icon-180.png`, which
+trims only the corners.
+
+If you change the background colour, update the padding colour when
+regenerating, plus `theme_color` in `public/manifest.webmanifest` and the
+`theme-color` meta in `index.html`.
 
 ## Swapping the character art
 
