@@ -12,3 +12,12 @@ createRoot(root).render(
     <App />
   </StrictMode>,
 )
+
+// Production only — a service worker would sit in front of Vite's HMR in dev.
+if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {
+      // Offline support is a bonus; the app works fine without it.
+    })
+  })
+}

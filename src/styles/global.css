@@ -55,7 +55,10 @@ input {
   padding: 0 var(--gutter);
   /* Keep content clear of the frozen bottom nav. */
   padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px));
-  padding-top: 56px;
+  /* Installed to the home screen there's no browser chrome, so the status bar
+     and notch sit directly over the page — the inset pushes clear of them. In
+     a normal tab it resolves to 0 and this is just the 56px. */
+  padding-top: calc(56px + env(safe-area-inset-top, 0px));
 }
 
 /* Shared card treatment */

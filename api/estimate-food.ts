@@ -1,12 +1,17 @@
+import type { IncomingMessage, ServerResponse } from 'node:http'
+
 import Anthropic from '@anthropic-ai/sdk'
 
 /**
- * Turns a typed phrase ("200g chicken breast", "two eggs and toast") into a
- * calorie and protein estimate.
+ * Food estimation, running server-side only.
  *
- * This runs server-side only — in dev it's mounted by the Vite plugin in
- * vite.config.ts, so ANTHROPIC_API_KEY never reaches the browser bundle. To
- * deploy, drop this same function behind a serverless route.
+ * Deployed on Vercel this is a serverless function at POST /api/estimate-food.
+ * In local dev the same `estimate()` below is mounted on the Vite dev server
+ * (see vite.config.ts), so there is one implementation and one code path.
+ *
+ * The Anthropic key is read from the ANTHROPIC_API_KEY environment variable and
+ * never leaves this file — nothing here is imported by anything under src/, so
+ * it cannot end up in the browser bundle.
  */
 
 export interface FoodEstimate {
@@ -89,12 +94,12 @@ let client: Anthropic | null = null
 
 function getClient(): Anthropic {
   // Constructed lazily so a missing key surfaces as a clean 503 rather than
-  // blowing up when the dev server boots.
+  // blowing up when the function cold-starts.
   client ??= new Anthropic()
   return client
 }
 
-export async function estimateFood(query: string): Promise<FoodEstimate> {
+export async function estimate(query: string): Promise<FoodEstimate> {
   const response = await getClient().beta.messages.create({
     model: 'claude-opus-5',
     max_tokens: 1024,
@@ -127,5 +132,45 @@ export async function estimateFood(query: string): Promise<FoodEstimate> {
     protein_per: Math.max(0, Math.round(parsed.protein_per)),
     default_amount: Math.max(1, Math.round(parsed.default_amount)),
     confident: Boolean(parsed.confident),
+  }
+}
+
+/** Vercel passes a Node request/response pair; no framework types needed. */
+type Req = IncomingMessage & { body?: unknown }
+
+async function readBody(req: Req): Promise<unknown> {
+  // Vercel parses JSON bodies for us, but the dev server doesn't, so fall back
+  // to draining the stream.
+  if (req.body !== undefined && req.body !== null && req.body !== '') return req.body
+  const chunks: Buffer[] = []
+  for await (const chunk of req) chunks.push(chunk as Buffer)
+  const raw = Buffer.concat(chunks).toString()
+  return raw ? JSON.parse(raw) : {}
+}
+
+export default async function handler(req: Req, res: ServerResponse): Promise<void> {
+  const send = (status: number, body: unknown) => {
+    res.statusCode = status
+    res.setHeader('Content-Type', 'application/json')
+    res.end(JSON.stringify(body))
+  }
+
+  if (req.method !== 'POST') return send(405, { error: 'Use POST.' })
+
+  if (!process.env.ANTHROPIC_API_KEY) {
+    return send(503, { error: 'ANTHROPIC_API_KEY is not set on the server.' })
+  }
+
+  try {
+    const parsed = await readBody(req)
+    const query = (parsed as { query?: unknown }).query
+
+    if (typeof query !== 'string' || !query.trim()) {
+      return send(400, { error: 'Missing query.' })
+    }
+
+    send(200, await estimate(query.trim().slice(0, 200)))
+  } catch (err) {
+    send(502, { error: err instanceof Error ? err.message : 'Estimate failed.' })
   }
 }

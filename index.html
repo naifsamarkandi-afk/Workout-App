@@ -3,11 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <!-- No maximum-scale/user-scalable: pinch zoom stays available. Every input
-         is >=17px, so iOS won't zoom on focus anyway. -->
+         is >=17px, so iOS won't zoom on focus anyway. viewport-fit=cover lets
+         the layout reach under the notch and home indicator; the safe-area
+         insets in global.css and BottomNav.css keep content clear of them. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <title>Swolemates</title>
+    <meta
+      name="description"
+      content="Workout and nutrition tracker for a 4-day dumbbell upper/lower split."
+    />
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="theme-color" content="#F4ECA2" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png" />
+    <link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
+
+    <!-- iOS: Safari uses apple-touch-icon for the home screen, not the manifest
+         icons, and these two metas are what make it launch without browser
+         chrome. apple-mobile-web-app-capable is the legacy spelling iOS still
+         requires; mobile-web-app-capable is the standard one. -->
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon-180.png" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>Workout</title>
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Swolemates" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
