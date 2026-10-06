@@ -91,8 +91,8 @@ other pill, rest days included, is light.
 ## Swapping the app icon
 
 `public/icons/` holds the app icon at every size the PWA needs, all generated
-from one 1024×1024 square source. Replace the PNGs with your own at the same
-filenames and sizes and nothing else needs to change — the manifest and
+from `design/icon-source.png` (1024×1024). Replace the PNGs with your own at the
+same filenames and sizes and nothing else needs to change — the manifest and
 `index.html` reference these names, not the artwork:
 
 | File | Size | Used by |
